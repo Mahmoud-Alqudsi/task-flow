@@ -1,0 +1,32 @@
+# بيانات الاعتماد (لا تُرفع أبدًا!)
+.env
+.env.local
+.env.production
+
+# مجلد Composer
+/vendor/
+
+# ملفات النظام
+.DS_Store
+Thumbs.db
+
+# ملفات المحررات
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ملفات السجلات والتخزين المؤقت
+*.log
+/logs/
+/cache/
+/tmp/
+
+# ملفات الرفع
+/public/uploads/
+
+# قاعدة البيانات (نستثني ملفات المخطط والبيانات التجريبية فقط)
+*.sql
+!database/schema.sql
+!database/seed.sql
