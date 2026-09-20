@@ -22,4 +22,12 @@ abstract class BaseController {
     protected function sanitize(string $input): string {
         return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
     }
+    /**
+     * توليد رابط ترقيم الصفحات مع الحفاظ على الفلاتر الحالية
+     */
+    protected function paginationUrl(int $page): string {
+        $params = $_GET;
+        $params['page'] = $page;
+        return '?' . http_build_query($params);
+    }
 }
