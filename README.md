@@ -4,22 +4,18 @@
 >
 > An educational project demonstrating how to build a secure, well-documented web application following MVC architecture and industry best practices.
 
-## 📸 Screenshots
-
-| Dashboard | Task List |
-|-----------|-----------|
-| ![Dashboard](docs/screenshots/dashboard.png) | ![Tasks](docs/screenshots/tasks.png) |
-
 ## ✨ Features
 
 - 🔐 **Secure Authentication**: User registration, login, logout with session management
 - 📋 **Full CRUD Operations**: Create, read, update, and delete tasks
 - 🏷️ **Category System**: Many-to-Many relationships between tasks and categories
-- 🔍 **Advanced Search**: Filter by status, priority, user, and date range
-- 📊 **Dashboard**: Real-time statistics with completion rates
+- 🔍 **Advanced Search**: Filter by status, priority, and text search
+- 📄 **Smart Pagination**: Pagination that preserves active filters
+- 📊 **Live Dashboard**: Real-time statistics with completion rates
 - 🛡️ **Multi-layer Security**: Protection against SQL Injection, XSS, and CSRF
+- 👥 **Role-based Access Control**: Admin sees all tasks, users see only their own
 - 📱 **Responsive Design**: Works seamlessly on all devices
-- 👥 **Role-based Access Control**: Admin and regular user permissions
+- 🎨 **Modern UI**: Clean design with glassmorphism effects
 
 ## 🛠️ Technologies Used
 
@@ -29,7 +25,7 @@
 | MySQL | 8.0+ | Relational database |
 | PDO | Built-in | Secure database access |
 | Git | 2.x+ | Version control |
-| Composer | 2.x+ | Dependency management & autoloading |
+| Composer | 2.x+ | Autoloading (PSR-4) |
 
 ## 📦 Installation
 
@@ -46,17 +42,17 @@
 git clone https://github.com/YOUR_USERNAME/task-flow.git
 cd task-flow
 
-# 2. Install dependencies
+# 2. Install dependencies (generates autoloader)
 composer install
 
 # 3. Configure environment
-cp .env.example .env
+copy .env.example .env
 # Edit .env with your local database credentials
 
 # 4. Set up the database
-composer db:create
-composer db:schema
-composer db:seed
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS task_flow CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+mysql -u root task_flow < database/schema.sql
+mysql -u root task_flow < database/seed.sql
 
 # 5. Start the development server
 composer serve
@@ -70,8 +66,8 @@ Open your browser and navigate to: [http://localhost:8080](http://localhost:8080
 
 | Email | Password | Role |
 |-------|----------|------|
-| ahmed@example.com | password123 | Admin |
-| sara@example.com | password123 | User |
+| ahmed@example.com | password | Admin |
+| sara@example.com | password | User |
 
 ## 📂 Project Structure
 
@@ -82,12 +78,14 @@ task-flow/
 │   ├── .htaccess
 │   └── assets/
 ├── src/                 ← Application logic
-│   ├── Controllers/
+│   ├── Controllers/     ← Request handlers
 │   ├── Models/          ← Data entities (User, Task, Category)
 │   ├── Enums/           ← Typed constants
 │   ├── Repositories/    ← Database access layer
 │   ├── Middleware/      ← Route protection
-│   └── Security/        ← CSRF protection
+│   ├── Security/        ← CSRF protection
+│   ├── Database.php     ← Singleton PDO connection
+│   └── Router.php       ← Advanced routing system
 ├── views/               ← HTML templates
 ├── database/            ← SQL schema & seed data
 ├── docs/                ← Documentation
@@ -107,6 +105,7 @@ This project implements multiple layers of protection:
 - ✅ **`htmlspecialchars()`** on all user-generated output (prevents XSS)
 - ✅ **Session regeneration** after login (prevents Session Fixation)
 - ✅ **Hidden error messages** in production environments
+- ✅ **Generic error messages** to prevent user enumeration
 
 ## 📖 Documentation
 
@@ -124,4 +123,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-**Built with dedication and attention to detail.** 🚀
+**Built with dedication and attention to detail by The Emperor.** 🚀
