@@ -22,6 +22,16 @@ class TaskController extends BaseController {
         $priority = trim($_GET['priority'] ?? '');
         $page = max(1, (int) ($_GET['page'] ?? 1));
 
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // نظام الصلاحيات:
+        // المدير (admin) يرى جميع المهام
+        // المستخدم العادي (user) يرى مهامه فقط
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        $userId = null;
+        if ($_SESSION['user_role'] !== 'admin') {
+            $userId = (int) $_SESSION['user_id'];
+        }
+
         // تنفيذ البحث المتقدم
         $result = $this->taskRepo->advancedSearch(
             search: $search !== '' ? $search : null,
@@ -42,7 +52,7 @@ class TaskController extends BaseController {
                 'status' => $status,
                 'priority' => $priority,
             ],
-
+            'isAdmin' => $_SESSION['user_role'] === 'admin',
         ]);
     }
 
