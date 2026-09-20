@@ -20,6 +20,11 @@ class UserRepository {
         return $row ? $this->hydrate($row) : null;
     }
 
+    public function create(string $name, string $email, string $password): void {
+        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'user')");
+        $stmt->execute([$name, $email, $password]);
+    }
+
     private function hydrate(array $row): User {
         return new User(
             id: (int)$row['id'],
